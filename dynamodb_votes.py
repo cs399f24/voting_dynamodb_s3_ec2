@@ -4,7 +4,7 @@ import boto3
 class DynamoDBVotes:
 
     def __init__(self, redis):
-        dynamodb = boto3.resource('dynamodb')
+        dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
         self.table = dynamodb.Table('VoteCounts')
 
     def is_valid_vote(self, vote):
@@ -21,17 +21,14 @@ class DynamoDBVotes:
             )
 
     def get_votes(self):
-        response = self.table.batch_get_item(
-            RequestItems={
-                'VoteCounts': {
-                    'Keys': [{'VoteType': 'yes'}, {'VoteType': 'no'}]
-                }
-            }
-        )
-
         counts = {'yes': 0, 'no': 0}
-        for item in response['Responses']['VoteCounts']:
-            counts[item['VoteType']] = item['Count']
+
+        response_yes = self.table.get_item(Key={'VoteType': 'yes'})
+        if 'Item' in response_yes:
+            counts['yes'] = response_yes['Item']['Count']
+
+        response_no = self.table.get_item(Key={'VoteType': 'no'})
+        if 'Item' in response_no:
+            counts['no'] = response_no['Item']['Count']
 
         return counts
-
