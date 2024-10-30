@@ -3,7 +3,7 @@ import boto3
 
 class DynamoDBVotes:
 
-    def __init__(self, redis):
+    def __init__(self):
         dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
         self.table = dynamodb.Table('VoteCounts')
 

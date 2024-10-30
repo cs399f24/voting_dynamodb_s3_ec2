@@ -3,9 +3,6 @@ from flask import Flask, jsonify, request
 import json
 from dynamodb_votes import DynamoDBVotes
 from flask_cors import CORS
-import redis
-import dotenv
-import os
 
 
 def create_app(votes):
@@ -37,9 +34,7 @@ def create_app(votes):
 
 
 def launch_app():
-    dotenv.load_dotenv()
-    redis_server = redis.Redis(host=os.getenv('REDIS_HOST'), port=os.getenv('REDIS_PORT'))
-    votes = DynamoDBVotes(redis_server)
+    votes = DynamoDBVotes()
 
     return create_app(votes)
 

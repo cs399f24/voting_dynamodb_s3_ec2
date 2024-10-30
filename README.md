@@ -32,6 +32,13 @@ Changes to this server (from the `s3_ec2` version:
 The javascript in `index.html` uses the variable `server` to know where to get voting API.  This variable is declared on line 8 as `const server = 'http://FIXME-API-HOST-IP';`.  Replace the FIXME portion with the IP address of your EC2 instance.
 
 
+After you add the IP address, upload the `index.html` file to the S3 bucket:
+
+```
+aws s3 cp index.html s3://<voting-website-bucket>
+```
+
+
 ## DynamoDB Table Creation
 
 We will store the data in a table named `VoteCounts` with the following structure
