@@ -18,7 +18,7 @@ aws ec2 describe-security-groups
 Most settings are the same as before.  However, we need to set the IAM instance profile (`LabInstanceProfile`) to allow the instance to access the DynamoDB table:
 
 ```
-aws ec2 run-instances --image-id ami-06b21ccaeff8cd686 --instance-type t2.micro --key-name vockey --security-groups httpssh --user-data file://userdata.sh --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=voting_dynamodb_s3_ec2_cli}]'
+aws ec2 run-instances --image-id ami-06b21ccaeff8cd686 --instance-type t2.micro --key-name vockey --security-groups httpssh --user-data file://userdata.sh --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=voting_dynamodb_s3_ec2_cli}] --iam-instance-profile Name=LabInstanceProfile'
 ```
 
 Changes to this server (from the `s3_ec2` version:
